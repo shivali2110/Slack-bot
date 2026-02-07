@@ -1,0 +1,29 @@
+{
+ 
+      "type": "module",
+ 
+      "dependencies": {
+ 
+       
+      "@slack/bolt": "^4.6.0",
+ 
+       
+      "axios": "^1.13.4",
+ 
+       
+      "dotenv": "^17.2.3",
+ 
+       
+      "express": "^5.2.1",
+ 
+       
+      "fs": "^0.0.1-security",
+ 
+       
+      "http": "^0.0.1-security",
+ 
+       
+      "mysql2": "^3.16.2"
+ 
+      }
+}
