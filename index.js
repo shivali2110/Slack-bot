@@ -139,7 +139,7 @@ async function startApp() {
         }
 
         const response = await axios.post(
-          "https://slack.com/api/oauth.v2.access",
+          "http://localhost:3000/slack/oauth_redirect",
           null,
           {
             params: {
