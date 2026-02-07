@@ -7,12 +7,12 @@ import axios from "axios";
 
 dotenv.config();
 
-/* 🔹 Express Receiver (OAuth + custom routes ke liye) */
+/* Express Receiver (OAuth + custom routes ) */
 const receiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
-/* 🔹 Slack Bolt App */
+/*  Slack Bolt App */
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   receiver,
@@ -25,11 +25,11 @@ app.use(async ({ body, next }) => {
 
 async function startApp() {
   try {
-    /* ✅ DB test */
+    /*  DB test */
     await pool.query("SELECT 1");
     console.log("✅ MySQL connected");
 
-    /* 🏠 App Home */
+    /*  App Home */
     app.event("app_home_opened", async ({ event, client }) => {
       await client.views.publish({
         user_id: event.user,
@@ -62,7 +62,7 @@ async function startApp() {
       });
     });
 
-    /* 🔘 Button Click */
+    /*  Button Click */
     app.action("click_me_button", async ({ ack, body, client }) => {
       await ack();
 
@@ -76,7 +76,7 @@ async function startApp() {
         const userName =
           userInfo.user.real_name || userInfo.user.name;
 
-        // ✅ Same user repeat nahi hoga
+        // Same user repeat nahi thay
         await pool.query(
           `INSERT IGNORE INTO users (slack_user_id, name)
            VALUES (?, ?)`,
@@ -129,7 +129,7 @@ async function startApp() {
       }
     });
 
-    /* 🔐 OAuth Redirect URL (Slack exact JSON output) */
+    /*  OAuth Redirect URL (Slack exact JSON output) */
     receiver.app.get("/slack/oauth_redirect", async (req, res) => {
       try {
         const code = req.query.code;
@@ -154,7 +154,7 @@ async function startApp() {
         console.log("✅ OAuth Response (Slack JSON):");
         console.log(response.data);
 
-        // Browser + Postman dono me dikhega
+        // Browser + Postman 
         res.json(response.data);
 
       } catch (err) {
@@ -164,11 +164,11 @@ async function startApp() {
     });
 
 
-    /* 🚀 Start server */
+    /*  Start server */
     await app.start(process.env.PORT || 3000);
-    console.log("⚡️ Bolt app + OAuth running!");
+    console.log(" Bolt app + OAuth running!");
   } catch (err) {
-    console.error("❌ Startup error:", err);
+    console.error(" Startup error:", err);
     process.exit(1);
   }
 }
