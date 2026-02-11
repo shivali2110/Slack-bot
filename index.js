@@ -427,18 +427,18 @@ const MEET_AND_GREET_USERS = [
 ];
 
 
-/* 🔹 Express Receiver */
+/*  Express Receiver */
 const receiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
-/* 🔹 Slack Bolt App */
+/*  Slack Bolt App */
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   receiver,
 });
 
-/* 🔹 Log incoming payload */
+/*  Log incoming payload */
 app.use(async ({ body, next }) => {
   console.log("📩 Incoming Slack payload type:", body?.type);
   await next();
@@ -481,7 +481,7 @@ async function startApp() {
       });
     });
     /* =========================
-   👤 NEW USER JOIN → MEET & GREET
+    NEW USER JOIN → MEET & GREET
 ========================== */
 app.event("team_join", async ({ event, client }) => {
   try {
@@ -526,7 +526,7 @@ app.event("team_join", async ({ event, client }) => {
   }
 });
 /* =========================
-   ✅ MEET & GREET DONE BUTTON
+    MEET & GREET DONE BUTTON
 ========================== */
 app.action("meet_greet_done", async ({ ack, body, client }) => {
   await ack();
@@ -538,7 +538,7 @@ app.action("meet_greet_done", async ({ ack, body, client }) => {
     const channelId = body.channel.id;
     const messageTs = body.message.ts;
 
-    // 🔁 UPDATE SAME MESSAGE (button → text)
+    //  UPDATE SAME MESSAGE (button → text)
     await client.chat.update({
       channel: channelId,
       ts: messageTs,
@@ -561,7 +561,7 @@ app.action("meet_greet_done", async ({ ack, body, client }) => {
 
 
 
-    /* 🔹 Button Click */
+    /*  Button Click */
     app.action("click_me_button", async ({ ack, body, client }) => {
       await ack();
 
@@ -624,7 +624,7 @@ app.action("meet_greet_done", async ({ ack, body, client }) => {
       }
     });
 
-    /* 🔐 OAuth Redirect (FINAL FIXED VERSION) */
+    /*  OAuth Redirect (FINAL FIXED VERSION) */
     receiver.app.all("/slack/oauth_redirect", async (req, res) => {
       try {
         const code = req.query.code;
